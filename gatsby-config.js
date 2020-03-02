@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   siteMetadata: {
     title: `Serge de Ravar`,
@@ -10,10 +12,20 @@ module.exports = {
     `gatsby-plugin-typescript`,
     `gatsby-transformer-remark`,
     {
+      resolve: '@fs/gatsby-plugin-drive',
+      options: {
+        folderId: '1IZTQikwxwa_QQ5_imN02sVRvtYWcxe5I',
+        keyFile: path.resolve(__dirname, 'serge-de-ravar-website.json'),
+        destination: path.join(__dirname, 'src/content'),
+        exportGDocs: true,
+        exportMimeType: 'text/html',
+      }
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/images`,
+        path: `${__dirname}/src/content`,
       },
     },
     `gatsby-transformer-sharp`,
