@@ -6,12 +6,17 @@ import { ImageFluid } from "./image"
 
 const ColumnContainer = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 300px;
 `
 
-export const FirstColumnImage = () => {
+export const AllImages = () => {
   const data = useStaticQuery(graphql`
     query {
-      allMarkdownRemark(filter: { frontmatter: { column: { eq: 1 } } }) {
+      allMarkdownRemark {
         totalCount
         edges {
           node {
@@ -22,7 +27,7 @@ export const FirstColumnImage = () => {
                 id
                 absolutePath
                 childImageSharp {
-                  fluid(maxWidth: 300) {
+                  fluid(maxWidth: 600) {
                     ...GatsbyImageSharpFluid
                   }
                 }
