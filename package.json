@@ -39,6 +39,7 @@
   "license": "MIT",
   "scripts": {
     "build": "transcrypt -c aes-256-cbc -p $TRANSCRYPT_PASSWORD && gatsby build",
+    "deploy": "gatsby build && netlify deploy",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",

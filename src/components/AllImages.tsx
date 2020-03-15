@@ -4,13 +4,24 @@ import styled from "styled-components"
 import Img from "gatsby-image"
 import { ImageFluid } from "./image"
 
-const ColumnContainer = styled.div`
-  flex: 1;
+const RowContainer = styled.div`
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
-  width: 300px;
+  padding: 0 4px;
+`
+
+const ColumnContainer = styled.div`
+  flex: 50%;
+  max-width: 50%;
+  padding: 0 4px;
+  @media screen and (max-width: 800px) {
+    flex: 50%;
+    max-width: 50%;
+  }
+  @media screen and (max-width: 600px) {
+    flex: 100%;
+    max-width: 100%;
+  }
 `
 
 export const AllImages = () => {
@@ -23,6 +34,7 @@ export const AllImages = () => {
             id
             frontmatter {
               title
+              column
               featuredImage {
                 id
                 absolutePath
@@ -40,16 +52,33 @@ export const AllImages = () => {
     }
   `)
 
+  const getImagesByColumn = (columnId: number) =>
+    data.allMarkdownRemark.edges.filter(({ node }) => {
+      return node.frontmatter.column === columnId
+    })
+
   return (
-    <ColumnContainer>
-      {data.allMarkdownRemark.edges.map(({ node }) => {
-        return (
-          <ImageFluid
-            key={node.id}
-            fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
-          />
-        )
-      })}
-    </ColumnContainer>
+    <RowContainer>
+      <ColumnContainer>
+        {getImagesByColumn(1).map(({ node }) => {
+          return (
+            <ImageFluid
+              key={node.id}
+              fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
+            />
+          )
+        })}
+      </ColumnContainer>
+      <ColumnContainer>
+        {getImagesByColumn(2).map(({ node }) => {
+          return (
+            <ImageFluid
+              key={node.id}
+              fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
+            />
+          )
+        })}
+      </ColumnContainer>
+    </RowContainer>
   )
 }

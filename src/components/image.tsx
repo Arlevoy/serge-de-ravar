@@ -15,8 +15,9 @@ const Image = styled(Img)`
 
 const ImageContainer = styled.div`
   overflow: hidden;
-  margin: 8px;
-  flex: 1 1 300px;
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
 `
 
 export const ImageFluid = ({ fluid }) => {
