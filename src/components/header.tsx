@@ -9,6 +9,13 @@ const HeaderContainer = styled.div`
   margin-bottom: 24px;
 `
 
+const HeaderTextLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  font-family: "Playfair Display";
+  font-size: 32px;
+`
+
 const Header = ({ siteTitle }) => (
   <HeaderContainer>
     <div
@@ -18,17 +25,7 @@ const Header = ({ siteTitle }) => (
         padding: `1.45rem 1.0875rem`,
       }}
     >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
+      <HeaderTextLink to="/">{siteTitle}</HeaderTextLink>
     </div>
   </HeaderContainer>
 )

@@ -2,15 +2,31 @@ const path = require('path')
 
 module.exports = {
   siteMetadata: {
-    title: `Serge de Ravar`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    title: `ES Photographie`,
+    description: ``,
     author: `@gatsbyjs`,
   },
   plugins: [
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`,
-    `gatsby-transformer-remark`,
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Playfair Display']
+        }
+      }
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          `gatsby-remark-images`,
+          `gatsby-remark-images-zoom`,
+        ],
+      },
+    },
     {
       resolve: '@fs/gatsby-plugin-drive',
       options: {
