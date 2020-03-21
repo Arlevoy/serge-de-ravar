@@ -12,7 +12,6 @@ const HeaderContainer = styled.div`
 const HeaderTextLink = styled(Link)`
   color: white;
   text-decoration: none;
-  font-family: "Playfair Display";
   font-size: 32px;
 `
 

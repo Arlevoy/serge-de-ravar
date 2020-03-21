@@ -1,8 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
-import Img from "gatsby-image"
+import Img, { FluidObject } from "gatsby-image"
+import Dialog from "@material-ui/core/Dialog"
+
 import { ImageFluid } from "./image"
+import { ImageDialog } from "./ImageDialog"
+import { ImageNode } from "../interfaces/ImageNode"
 
 const RowContainer = styled.div`
   display: flex;
@@ -25,6 +29,15 @@ const ColumnContainer = styled.div`
 `
 
 export const AllImages = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  const handleDialogClose = () => setIsDialogOpen(false)
+  const handleDialogOpen = (node: ImageNode) => () => {
+    setSelectedImage(node.frontmatter)
+    setIsDialogOpen(true)
+  }
+
   const data = useStaticQuery(graphql`
     query {
       allMarkdownRemark {
@@ -39,7 +52,7 @@ export const AllImages = () => {
                 id
                 absolutePath
                 childImageSharp {
-                  fluid(maxWidth: 600) {
+                  fluid {
                     ...GatsbyImageSharpFluid
                   }
                 }
@@ -57,28 +70,34 @@ export const AllImages = () => {
       return node.frontmatter.column === columnId
     })
 
+  const renderImage = (node: ImageNode) => (
+    <div onClick={handleDialogOpen(node)}>
+      <ImageFluid
+        key={node.id}
+        fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
+      />
+    </div>
+  )
+
   return (
-    <RowContainer>
-      <ColumnContainer>
-        {getImagesByColumn(1).map(({ node }) => {
-          return (
-            <ImageFluid
-              key={node.id}
-              fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
-            />
-          )
-        })}
-      </ColumnContainer>
-      <ColumnContainer>
-        {getImagesByColumn(2).map(({ node }) => {
-          return (
-            <ImageFluid
-              key={node.id}
-              fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
-            />
-          )
-        })}
-      </ColumnContainer>
-    </RowContainer>
+    <>
+      <RowContainer>
+        <ColumnContainer>
+          {getImagesByColumn(1).map(({ node }: { node: ImageNode }) => {
+            return renderImage(node)
+          })}
+        </ColumnContainer>
+        <ColumnContainer>
+          {getImagesByColumn(2).map(({ node }: { node: ImageNode }) => {
+            return renderImage(node)
+          })}
+        </ColumnContainer>
+      </RowContainer>
+      <ImageDialog
+        image={selectedImage}
+        isOpen={isDialogOpen}
+        handleClose={handleDialogClose}
+      />
+    </>
   )
 }
