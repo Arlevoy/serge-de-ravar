@@ -6,7 +6,11 @@ import { theme } from "../theme"
 
 const HeaderContainer = styled.div`
   background-color: black;
-  margin-bottom: 24px;
+  padding: 24px 36px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 
 const HeaderTextLink = styled(Link)`
@@ -17,15 +21,7 @@ const HeaderTextLink = styled(Link)`
 
 const Header = ({ siteTitle }) => (
   <HeaderContainer>
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <HeaderTextLink to="/">{siteTitle}</HeaderTextLink>
-    </div>
+    <HeaderTextLink to="/">{siteTitle}</HeaderTextLink>
   </HeaderContainer>
 )
 
