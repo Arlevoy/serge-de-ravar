@@ -1,6 +1,7 @@
 ---
 title: Light
 featuredImage: light.jpg
+category: paris
 column: 2
 ---
 

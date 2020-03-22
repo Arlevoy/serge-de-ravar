@@ -6,8 +6,20 @@ import { graphql } from "gatsby"
 import { ImageNode } from "../interfaces/ImageNode"
 import { ImageFluid } from "../components/image"
 import { ImageDialog } from "../components/ImageDialog"
+import Header from "../components/header"
 
-export default ({ data }) => {
+interface CategoryData {
+  page: {
+    frontmatter: {
+      title: string
+    }
+  }
+  images: {
+    edges: { node: ImageNode }[]
+  }
+}
+
+export default ({ data }: { data: CategoryData }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
 
@@ -18,7 +30,7 @@ export default ({ data }) => {
   }
 
   const getImagesByColumn = (columnId: number) =>
-    data.allMarkdownRemark.edges.filter(({ node }) => {
+    data.images.edges.filter(({ node }) => {
       return node.frontmatter.column === columnId
     })
 
@@ -35,7 +47,8 @@ export default ({ data }) => {
   }
   console.log("data", data)
   return (
-    <Layout>
+    <>
+      <Header siteTitle={data.page.frontmatter.title} />
       <RowContainer>
         <ColumnContainer>
           {getImagesByColumn(1).map(({ node }: { node: ImageNode }) => {
@@ -53,13 +66,21 @@ export default ({ data }) => {
         isOpen={isDialogOpen}
         handleClose={handleDialogClose}
       />
-    </Layout>
+    </>
   )
 }
 
 export const query = graphql`
   query($slug: String!) {
-    allMarkdownRemark(filter: { frontmatter: { category: { eq: $slug } } }) {
+    page: markdownRemark(fields: { slug: { eq: $slug } }) {
+      html
+      frontmatter {
+        title
+      }
+    }
+    images: allMarkdownRemark(
+      filter: { frontmatter: { category: { eq: $slug } } }
+    ) {
       edges {
         node {
           id
