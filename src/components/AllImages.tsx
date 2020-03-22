@@ -70,14 +70,17 @@ export const AllImages = () => {
       return node.frontmatter.column === columnId
     })
 
-  const renderImage = (node: ImageNode) => (
-    <div onClick={handleDialogOpen(node)}>
-      <ImageFluid
-        key={node.id}
-        fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
-      />
-    </div>
-  )
+  const renderImage = (node: ImageNode) => {
+    console.log("node", node)
+    return (
+      <div onClick={handleDialogOpen(node)}>
+        <ImageFluid
+          key={node.id}
+          fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
+        />
+      </div>
+    )
+  }
 
   return (
     <>

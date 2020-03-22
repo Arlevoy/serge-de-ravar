@@ -1,9 +1,12 @@
 import React from "react"
 
 import Layout from "../components/layout"
-import { AllImages } from "../components/AllImages"
 import SEO from "../components/seo"
 import { createGlobalStyle } from "styled-components"
+
+import { ImageFile } from "../interfaces/File"
+import { Home } from "../components/Home"
+
 const GlobalStyles = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Notable');
   body {
@@ -11,12 +14,12 @@ const GlobalStyles = createGlobalStyle`
   }
   `
 
-const IndexPage = () => {
+const IndexPage = ({ data }: { data: ImageFile }) => {
   return (
     <Layout>
       <GlobalStyles />
       <SEO title="Home" />
-      <AllImages />
+      <Home />
     </Layout>
   )
 }

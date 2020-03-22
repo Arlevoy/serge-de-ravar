@@ -1,7 +1,7 @@
 ---
 title: Deliveroo
 featuredImage: deliveroo.jpg
-column: 2
+column: 1
 ---
 
 Content goes here!
