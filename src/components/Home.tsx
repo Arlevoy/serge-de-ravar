@@ -30,6 +30,10 @@ const ColumnContainer = styled.div`
     max-width: 100%;
   }
 `
+const CategoryLinkContainer = styled.div`
+  position: relative;
+`
+
 interface HomeData {
   allImages: {
     edges: { node: ImageNode }[]
@@ -49,11 +53,16 @@ export const Home = () => {
 
   const data: HomeData = useStaticQuery(graphql`
     query {
-      allImages: allMarkdownRemark {
+      allImages: allMarkdownRemark(
+        filter: { frontmatter: { type: { eq: "category" } } }
+      ) {
         totalCount
         edges {
           node {
             id
+            fields {
+              slug
+            }
             frontmatter {
               title
               column
@@ -90,21 +99,27 @@ export const Home = () => {
     })
   }
 
-  const renderImage = (node: ImageNode) => (
-    <div onClick={handleDialogOpen(node)}>
-      <ImageFluid
-        key={node.id}
-        fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
-      />
-    </div>
-  )
+  const renderImage = (node: ImageNode) => {
+    console.log("node", node)
+    const categoryLabel = node.fields.slug
+    return (
+      <Link to={`/${categoryLabel}`}>
+        <ImageFluid
+          type="category"
+          key={node.id}
+          fluid={node.frontmatter.featuredImage.childImageSharp.fluid}
+          label={node.frontmatter.title}
+        />
+      </Link>
+    )
+  }
   return (
     <>
       <RowContainer>
         <ColumnContainer>
-          <Link to="/paris">
-            <ImageFluid fluid={data.parisCover.childImageSharp.fluid} />
-          </Link>
+          {getImagesByColumn(1).map(({ node }: { node: ImageNode }) => {
+            return renderImage(node)
+          })}
         </ColumnContainer>
         <ColumnContainer>
           {getImagesByColumn(2).map(({ node }: { node: ImageNode }) => {

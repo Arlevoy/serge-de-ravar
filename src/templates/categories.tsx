@@ -35,7 +35,6 @@ export default ({ data }: { data: CategoryData }) => {
     })
 
   const renderImage = (node: ImageNode) => {
-    console.log("node", node)
     return (
       <div onClick={handleDialogOpen(node)}>
         <ImageFluid

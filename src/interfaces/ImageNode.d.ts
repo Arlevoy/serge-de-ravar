@@ -3,6 +3,9 @@ import { FluidObject } from "gatsby-image"
 export interface ImageNode {
   id: string
   frontmatter: FrontmatterImage
+  fields: {
+    slug: string
+  }
 }
 
 export interface FrontmatterImage {
